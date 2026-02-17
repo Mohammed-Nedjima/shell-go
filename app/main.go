@@ -25,14 +25,14 @@ func replay(supportedCommands map[string]func(args ...string)) {
 		fmt.Printf("%s: command not found\n", command)
 		return
 	}
-	excutorFunction(args...)
+	excutorFunction(args[1:]...)
 }
 
-func handleCommand(command string) {
-}
 func main() {
-	supportedCommands := make(map[string]func(args ...string))
-	supportedCommands["exit"] = func(args ...string) { os.Exit(0) }
+	supportedCommands := map[string]func(args ...string){
+		"exit": func(args ...string) { os.Exit(0) },
+		"echo": func(args ...string) { fmt.Printf("%s\n", strings.Join(args, " ")) },
+	}
 	for {
 		replay(supportedCommands)
 	}
