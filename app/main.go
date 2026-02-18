@@ -17,7 +17,7 @@ func replay(supportedCommands map[string]func(args ...string)) {
 	}
 	args := strings.Split(strings.TrimSpace(command), " ")
 
-	if len(args) == 0 {
+	if args[0] == "" {
 		return
 	}
 	excutorFunction, ok := supportedCommands[args[0]]
