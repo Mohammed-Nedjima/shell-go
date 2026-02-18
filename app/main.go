@@ -40,7 +40,7 @@ func main() {
 			for _, arg := range args {
 				_, ok := supportedCommands[arg]
 				if !ok {
-					fmt.Printf("%s: command not found\n", arg)
+					fmt.Printf("%s: not found\n", arg)
 					continue
 				}
 				fmt.Printf("%s is a shell builtin\n", arg)
