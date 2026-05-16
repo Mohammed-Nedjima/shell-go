@@ -26,5 +26,13 @@ func initSupportedCommands() commandMap {
 				fmt.Printf("%s is a shell builtin\n", arg)
 			}
 		},
+		"pwd": func(args ...string) {
+			wd, err := os.Getwd()
+			if err != nil {
+				fmt.Fprintln(os.Stderr, "Error getting current working directory:", err)
+				return
+			}
+			fmt.Println(wd)
+		},
 	}
 }
