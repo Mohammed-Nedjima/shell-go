@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -33,6 +34,10 @@ func replay(reader *bufio.Reader) {
 }
 
 func main() {
+	pathenv := os.Getenv("PATH")
+	if pathenv == "" {
+		pathenv = "/bin:/usr/bin:/usr/local/bin"
+	}
 	supportedCommands = commandMap{
 		"exit": func(args ...string) { os.Exit(0) },
 		"echo": func(args ...string) { fmt.Printf("%s\n", strings.Join(args, " ")) },
@@ -40,7 +45,12 @@ func main() {
 			for _, arg := range args {
 				_, ok := supportedCommands[arg]
 				if !ok {
-					fmt.Printf("%s: not found\n", arg)
+					path, err := exec.LookPath(arg)
+					if err != nil {
+						fmt.Printf("%s: command not found\n", arg)
+						continue
+					}
+					fmt.Printf("%s is %s\n", arg, path)
 					continue
 				}
 				fmt.Printf("%s is a shell builtin\n", arg)
