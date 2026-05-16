@@ -47,7 +47,7 @@ func main() {
 				if !ok {
 					path, err := exec.LookPath(arg)
 					if err != nil {
-						fmt.Printf("%s: command not found\n", arg)
+						fmt.Printf("%s: not found\n", arg)
 						continue
 					}
 					fmt.Printf("%s is %s\n", arg, path)
