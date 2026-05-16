@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func replay(reader *bufio.Reader) {
+func replay(reader *bufio.Reader, commands commandMap) {
 	fmt.Print("$ ")
 	command, err := reader.ReadString('\n')
 	command = command[:len(command)-1]
@@ -20,7 +20,7 @@ func replay(reader *bufio.Reader) {
 	if args[0] == "" {
 		return
 	}
-	executorFunction, ok := supportedCommands[args[0]]
+	executorFunction, ok := commands[args[0]]
 	if !ok {
 		_, err := exec.LookPath(args[0])
 		if err != nil {

@@ -17,6 +17,6 @@ func main() {
 	supportedCommands = initSupportedCommands()
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		replay(reader)
+		replay(reader, supportedCommands)
 	}
 }
