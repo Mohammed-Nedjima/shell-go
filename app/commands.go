@@ -35,7 +35,15 @@ func initSupportedCommands() commandMap {
 			fmt.Println(wd)
 		},
 		"cd": func(args ...string) {
-			// case of the path not existing
+			if len(args) == 0 || args[0] == "~" {
+				homePath := os.Getenv("HOME")
+				err := os.Chdir(homePath)
+				if err != nil {
+					fmt.Fprintln(os.Stderr, "Error changing working directory:", err)
+					return
+				}
+			}
+			// case of the path non existing
 			_, err := os.Stat(args[0])
 			if err != nil {
 				fmt.Printf("cd: %s: No such file or directory\n", args[0])
