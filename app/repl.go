@@ -22,12 +22,12 @@ func replay(reader *bufio.Reader) {
 	}
 	executorFunction, ok := supportedCommands[args[0]]
 	if !ok {
-		path, err := exec.LookPath(args[0])
+		_, err := exec.LookPath(args[0])
 		if err != nil {
 			fmt.Printf("%s: command not found\n", args[0])
 			return
 		}
-		cmd := exec.Command(path, args[1:]...)
+		cmd := exec.Command(args[0], args[1:]...)
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
 		err = cmd.Run()
