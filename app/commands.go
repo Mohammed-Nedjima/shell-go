@@ -42,6 +42,7 @@ func initSupportedCommands() commandMap {
 					fmt.Fprintln(os.Stderr, "Error changing working directory:", err)
 					return
 				}
+				return
 			}
 			// case of the path non existing
 			_, err := os.Stat(args[0])
