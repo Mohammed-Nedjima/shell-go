@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -21,8 +22,19 @@ func replay(reader *bufio.Reader) {
 	}
 	executorFunction, ok := supportedCommands[args[0]]
 	if !ok {
-		fmt.Printf("%s: command not found\n", command)
-		return
+		path, err := exec.LookPath(args[0])
+		if err != nil {
+			fmt.Printf("%s: command not found\n", args[0])
+			return
+		}
+		cmd := exec.Command(path, args[1:]...)
+		cmd.Stdin = os.Stdin
+		cmd.Stdout = os.Stdout
+		err = cmd.Run()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error executing command:", err)
+		}
+	} else {
+		executorFunction(args[1:]...)
 	}
-	executorFunction(args[1:]...)
 }
